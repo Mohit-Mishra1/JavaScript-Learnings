@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing game</title>
+</head>
+
+<body>
+    <form>
+        <h2>Guess the number between 1 to 100</h2>
+        <input id="user-input" type="text">
+        <button id="submit-button">submit</button>
+    </form>
+    <div>Your guess: <span id="user-guess"></span></div>
+    <div>Correct number: <span id="random-number"></span></div>
+
+    <div>
+        <h4>
+            Previous Guesses:
+            <span id="previous"></span>
+        </h4>
+    </div>
+    <div>Guess Remaining:
+        <span id="guess-remaining">10</span>
+    </div>
+
+    <div id="message"></div>
+
+
+    <script>
+        console.log("Hello");
+        const form = document.querySelector('form')
+        let previous_guessed = []
+        let remaining_guess = document.querySelector('#guess-remaining')
+        let submit = document.querySelector('#submit-button')
+        let message = document.querySelector('#message')
+        let count = 1;
+
+        let random_number = Math.floor(Math.random() * (100 - 1 + 1)) + 1
+
+
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault()
+
+            remaining_guess.innerHTML = 10-count
+            count++;
+
+
+            const guessed_number = parseInt(document.querySelector('#user-input').value)
+
+            document.querySelector('#user-guess').innerHTML = guessed_number
+            document.querySelector('#random-number').innerHTML = random_number
+
+            previous_guessed.push(guessed_number)
+            document.querySelector('#previous').innerHTML = previous_guessed
+
+            if(remaining_guess.innerHTML == 0){
+                submit.setAttribute('disabled', '')
+                message.innerHTML = 'You ran out of chance! click to restart the game'
+            }
+
+            else if(guessed_number == random_number){
+                submit.setAttribute('disabled', '')
+                message.innerHTML = 'You won! click to restart the game'
+            }
+        })
+
+        message.addEventListener('click', function(event){
+            event.preventDefault()
+            restart()
+        })
+
+        function restart(){
+            submit.removeAttribute('disabled')
+            count = 1;
+            random_number = Math.floor(Math.random() * (100 - 1 + 1)) + 1
+            previous_guessed = []
+            message.innerHTML = ''
+            remaining_guess.innerHTML = 10
+            document.querySelector('#previous').innerHTML = previous_guessed
+        }
+
+    </script>
+</body>
+
+</html>
